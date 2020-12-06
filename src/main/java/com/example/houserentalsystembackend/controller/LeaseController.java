@@ -69,8 +69,8 @@ public class LeaseController {
         return new BaseResponse<>(404, null, "No Such Customer");
       }
       lease.setCustomer(customer);
-      lease.setStartDate(new Date());
-      lease.setEndDate(new Date());
+//      lease.setStartDate(new Date());
+//      lease.setEndDate(new Date());
       Lease newLease = leaseService.addLease(lease);
 
       return new BaseResponse<>(200, newLease, "Lease Added");
