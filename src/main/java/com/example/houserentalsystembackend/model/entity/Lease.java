@@ -24,21 +24,21 @@ public class Lease {
   private Customer customer;
 
   @ManyToOne
-  private HouseOwner houseOwner;
+  private House house;
 
   public Lease() {
   }
 
   public Lease(String id, Date startDate, Date endDate, double actualRent,
       Agent agent, Customer customer,
-      HouseOwner houseOwner) {
+      House house) {
     this.id = id;
     this.startDate = startDate;
     this.endDate = endDate;
     this.actualRent = actualRent;
     this.agent = agent;
     this.customer = customer;
-    this.houseOwner = houseOwner;
+    this.house = house;
   }
 
   public String getId() {
@@ -89,11 +89,11 @@ public class Lease {
     this.customer = customer;
   }
 
-  public HouseOwner getHouseOwner() {
-    return houseOwner;
+  public House getHouse() {
+    return house;
   }
 
-  public void setHouseOwner(HouseOwner houseOwner) {
-    this.houseOwner = houseOwner;
+  public void setHouse(House house) {
+    this.house = house;
   }
 }

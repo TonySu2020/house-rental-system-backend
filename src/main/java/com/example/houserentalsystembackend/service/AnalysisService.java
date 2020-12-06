@@ -1,10 +1,8 @@
 package com.example.houserentalsystembackend.service;
 
-import com.example.houserentalsystembackend.model.Overview;
 import com.example.houserentalsystembackend.repository.AnalysisRepository;
 import com.example.houserentalsystembackend.repository.CityRepository;
 import com.example.houserentalsystembackend.repository.CustomerRepository;
-import com.example.houserentalsystembackend.repository.HouseOwnerRepository;
 import com.example.houserentalsystembackend.repository.HouseRepository;
 import com.example.houserentalsystembackend.repository.LeaseRepository;
 import com.example.houserentalsystembackend.repository.OwnerRepository;
@@ -21,9 +19,6 @@ public class AnalysisService {
 
   @Autowired
   private CustomerRepository customerRepository;
-
-  @Autowired
-  private HouseOwnerRepository houseOwnerRepository;
 
   @Autowired
   private HouseRepository houseRepository;
@@ -58,7 +53,6 @@ public class AnalysisService {
   }
 
   public Map<String, BigInteger> getOverview() {
-    Map<String, BigInteger> map = analysisRepository.GET_OVERVIEW();
     return analysisRepository.GET_OVERVIEW();
   }
 }

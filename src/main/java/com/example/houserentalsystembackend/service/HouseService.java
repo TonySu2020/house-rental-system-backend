@@ -1,8 +1,6 @@
 package com.example.houserentalsystembackend.service;
 
-import com.example.houserentalsystembackend.model.entity.Customer;
 import com.example.houserentalsystembackend.model.entity.House;
-import com.example.houserentalsystembackend.repository.HouseOwnerRepository;
 import com.example.houserentalsystembackend.repository.HouseRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +10,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class HouseService {
-
-  @Autowired
-  private HouseOwnerRepository houseOwnerRepository;
 
   @Autowired
   private HouseRepository houseRepository;
@@ -33,6 +28,18 @@ public class HouseService {
 
   public House addHouse(House house) {
     return houseRepository.save(house);
+  }
+
+  public void deleteHouse(String id) {
+    houseRepository.deleteById(id);
+  }
+
+  public House updateHouse(House house) {
+    return houseRepository.save(house);
+  }
+
+  public House HardUpdateHouse(House house) {
+    return null;
   }
 
 }

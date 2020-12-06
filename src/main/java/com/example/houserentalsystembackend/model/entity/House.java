@@ -17,6 +17,9 @@ public class House {
   @ManyToOne
   private City city;
 
+  @ManyToOne
+  private Owner owner;
+
   private int bedroomNumber;
 
   private int bathroomNumber;
@@ -37,13 +40,14 @@ public class House {
   }
 
   public House(String id, double rent, String street,
-      City city, int bedroomNumber, int bathroomNumber, boolean nearToTransit,
+      City city, Owner owner, int bedroomNumber, int bathroomNumber, boolean nearToTransit,
       boolean electricityInclude, boolean waterInclude, boolean gasInclude, boolean networkInclude,
       String note) {
     this.id = id;
     this.rent = rent;
     this.street = street;
     this.city = city;
+    this.owner = owner;
     this.bedroomNumber = bedroomNumber;
     this.bathroomNumber = bathroomNumber;
     this.nearToTransit = nearToTransit;
@@ -80,6 +84,14 @@ public class House {
 
   public City getCity() {
     return city;
+  }
+
+  public Owner getOwner() {
+    return owner;
+  }
+
+  public void setOwner(Owner owner) {
+    this.owner = owner;
   }
 
   public void setCity(City city) {

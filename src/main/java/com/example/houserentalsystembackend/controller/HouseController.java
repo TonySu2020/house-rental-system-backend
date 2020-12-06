@@ -1,15 +1,20 @@
 package com.example.houserentalsystembackend.controller;
 
 import com.example.houserentalsystembackend.model.BaseResponse;
+import com.example.houserentalsystembackend.model.entity.City;
 import com.example.houserentalsystembackend.model.entity.House;
 import com.example.houserentalsystembackend.model.entity.Owner;
 import com.example.houserentalsystembackend.service.CityService;
 import com.example.houserentalsystembackend.service.HouseService;
+import com.example.houserentalsystembackend.service.OwnerService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +27,9 @@ public class HouseController {
 
   @Autowired
   private CityService cityService;
+
+  @Autowired
+  private OwnerService ownerService;
 
   @GetMapping(value = "/api/houses")
   public BaseResponse<List<House>> findAllHouse() {
@@ -39,8 +47,74 @@ public class HouseController {
       if (houseService.findById(house.getId()) == null) {
         return new BaseResponse<>(409, null, "This house has been registered.");
       }
+      City city = cityService.findById(house.getCity().getZipCode());
+      if(city == null) {
+        city = cityService.addCity(house.getCity());
+      }
+      house.setCity(city);
+      Owner owner = ownerService.findById(house.getOwner().getId());
+      if(owner == null) {
+        return new BaseResponse<>(404, null, "No Such Owner");
+      }
+      house.setOwner(owner);
       House newHouse = houseService.addHouse(house);
       return new BaseResponse<>(200, newHouse, "House Added");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+  @DeleteMapping(value = "/api/houses/{id}")
+  public BaseResponse<House> deleteById(@PathVariable("id") String id) {
+    try {
+      houseService.deleteHouse(id);
+      return new BaseResponse<>(200, null, "House Deleted");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+  @PutMapping(value = "/api/houses/{id}")
+  public BaseResponse<House> updateById(@PathVariable("id") String id, @RequestBody House house) {
+    try {
+      House oldHouse = houseService.findById(id);
+      if (oldHouse == null) {
+        return new BaseResponse<>(404, null, "No Such House");
+      }
+
+      City city = cityService.findById(house.getCity().getZipCode());
+      if(city == null) {
+        city = cityService.addCity(house.getCity());
+      }
+      house.setCity(city);
+
+      Owner owner = ownerService.findById(house.getOwner().getId());
+      if(owner == null) {
+        return new BaseResponse<>(404, null, "No Such Owner");
+      }
+      house.setOwner(owner);
+
+      House newHouse;
+      oldHouse.setId(house.getId());
+      oldHouse.setOwner(house.getOwner());
+      oldHouse.setCity(house.getCity());
+      oldHouse.setBathroomNumber(house.getBathroomNumber());
+      oldHouse.setBedroomNumber(house.getBedroomNumber());
+      oldHouse.setElectricityInclude(house.isElectricityInclude());
+      oldHouse.setWaterInclude(house.isWaterInclude());
+      oldHouse.setGasInclude(house.isGasInclude());
+      oldHouse.setNetworkInclude(house.isNetworkInclude());
+      oldHouse.setNearToTransit(house.isNetworkInclude());
+      oldHouse.setRent(house.getRent());
+      oldHouse.setNote(house.getNote());
+      oldHouse.setStreet(house.getStreet());
+
+      if(house.getId().equals(id)) {
+        newHouse = houseService.updateHouse(oldHouse);
+      } else {
+        newHouse = houseService.HardUpdateHouse(oldHouse);
+      }
+      return new BaseResponse<>(200, newHouse, "House Updated");
     } catch (Exception e) {
       return new BaseResponse<>(500, null, e.getMessage());
     }
