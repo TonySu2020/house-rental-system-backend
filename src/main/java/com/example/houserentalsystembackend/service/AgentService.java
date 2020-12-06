@@ -17,4 +17,9 @@ public class AgentService {
     return agent.orElse(null);
   }
 
+  public Agent findById(int id) {
+    Optional<Agent> agent = agentRepository.findById(id);
+    return agent.orElse(null);
+  }
+
 }

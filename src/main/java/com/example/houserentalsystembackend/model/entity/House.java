@@ -1,6 +1,8 @@
 package com.example.houserentalsystembackend.model.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -8,7 +10,8 @@ import javax.persistence.ManyToOne;
 public class House {
 
   @Id
-  private String id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
   private double rent;
 
@@ -39,7 +42,7 @@ public class House {
   public House() {
   }
 
-  public House(String id, double rent, String street,
+  public House(int id, double rent, String street,
       City city, Owner owner, int bedroomNumber, int bathroomNumber, boolean nearToTransit,
       boolean electricityInclude, boolean waterInclude, boolean gasInclude, boolean networkInclude,
       String note) {
@@ -58,11 +61,11 @@ public class House {
     this.note = note;
   }
 
-  public String getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(int id) {
     this.id = id;
   }
 

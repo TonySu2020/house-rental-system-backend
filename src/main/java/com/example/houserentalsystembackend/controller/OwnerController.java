@@ -35,8 +35,8 @@ public class OwnerController {
   @PostMapping(value = "/api/owners")
   public BaseResponse<Owner> addOwner(@RequestBody Owner owner) {
     try {
-      if (ownerService.findById(owner.getId()) == null) {
-        return new BaseResponse<>(409, null, "This user has been registered.");
+      if (ownerService.findById(owner.getId()) != null) {
+        return new BaseResponse<>(409, null, "This owner has been registered.");
       }
       Owner newOwner = ownerService.addOwner(owner);
       return new BaseResponse<>(200, newOwner, "Owner Added");
@@ -61,6 +61,10 @@ public class OwnerController {
   @DeleteMapping(value = "/api/owners/{id}")
   public BaseResponse<Owner> deleteById(@PathVariable("id") String id) {
     try {
+      Owner owner = ownerService.findById(id);
+      if (owner == null) {
+        return new BaseResponse<>(404, null, "No Such Owner");
+      }
       ownerService.deleteOwner(id);
       return new BaseResponse<>(200, null, "Owner Deleted");
     } catch (Exception e) {

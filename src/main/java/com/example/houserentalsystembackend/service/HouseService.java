@@ -21,7 +21,7 @@ public class HouseService {
     return houseList;
   }
 
-  public House findById(String id) {
+  public House findById(int id) {
     Optional<House> house = houseRepository.findById(id);
     return house.orElse(null);
   }
@@ -30,7 +30,7 @@ public class HouseService {
     return houseRepository.save(house);
   }
 
-  public void deleteHouse(String id) {
+  public void deleteHouse(int id) {
     houseRepository.deleteById(id);
   }
 

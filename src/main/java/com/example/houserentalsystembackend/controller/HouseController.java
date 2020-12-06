@@ -44,7 +44,7 @@ public class HouseController {
   @PostMapping(value = "/api/houses")
   public BaseResponse<House> addHouse(@RequestBody House house) {
     try {
-      if (houseService.findById(house.getId()) == null) {
+      if (houseService.findById(house.getId()) != null) {
         return new BaseResponse<>(409, null, "This house has been registered.");
       }
       City city = cityService.findById(house.getCity().getZipCode());
@@ -64,9 +64,26 @@ public class HouseController {
     }
   }
 
-  @DeleteMapping(value = "/api/houses/{id}")
-  public BaseResponse<House> deleteById(@PathVariable("id") String id) {
+  @GetMapping(value = "/api/houses/{id}")
+  public BaseResponse<House> findById(@PathVariable("id") int id) {
     try {
+      House house = houseService.findById(id);
+      if (house == null) {
+        return new BaseResponse<>(404, null, "No Such House");
+      }
+      return new BaseResponse<>(200, house, "Found House");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+  @DeleteMapping(value = "/api/houses/{id}")
+  public BaseResponse<House> deleteById(@PathVariable("id") int id) {
+    try {
+      House house = houseService.findById(id);
+      if (house == null) {
+        return new BaseResponse<>(404, null, "No Such House");
+      }
       houseService.deleteHouse(id);
       return new BaseResponse<>(200, null, "House Deleted");
     } catch (Exception e) {
@@ -75,7 +92,7 @@ public class HouseController {
   }
 
   @PutMapping(value = "/api/houses/{id}")
-  public BaseResponse<House> updateById(@PathVariable("id") String id, @RequestBody House house) {
+  public BaseResponse<House> updateById(@PathVariable("id") int id, @RequestBody House house) {
     try {
       House oldHouse = houseService.findById(id);
       if (oldHouse == null) {
@@ -94,7 +111,6 @@ public class HouseController {
       }
       house.setOwner(owner);
 
-      House newHouse;
       oldHouse.setId(house.getId());
       oldHouse.setOwner(house.getOwner());
       oldHouse.setCity(house.getCity());
@@ -109,11 +125,9 @@ public class HouseController {
       oldHouse.setNote(house.getNote());
       oldHouse.setStreet(house.getStreet());
 
-      if(house.getId().equals(id)) {
-        newHouse = houseService.updateHouse(oldHouse);
-      } else {
-        newHouse = houseService.HardUpdateHouse(oldHouse);
-      }
+
+      House newHouse = houseService.updateHouse(oldHouse);
+
       return new BaseResponse<>(200, newHouse, "House Updated");
     } catch (Exception e) {
       return new BaseResponse<>(500, null, e.getMessage());

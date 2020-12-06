@@ -34,7 +34,7 @@ public class CustomerController {
   @PostMapping(value = "/api/customers")
   public BaseResponse<Customer> addCustomer(@RequestBody Customer customer) {
     try {
-      if (customerService.findById(customer.getId()) == null) {
+      if (customerService.findById(customer.getId()) != null) {
         return new BaseResponse<>(409, null, "This customer has been registered.");
       }
       Customer newCustomer = customerService.addCustomer(customer);
@@ -60,6 +60,10 @@ public class CustomerController {
   @DeleteMapping(value = "/api/customers/{id}")
   public BaseResponse<Customer> deleteById(@PathVariable("id") String id) {
     try {
+      Customer customer = customerService.findById(id);
+      if (customer == null) {
+        return new BaseResponse<>(404, null, "No Such Customer");
+      }
       customerService.deleteCustomer(id);
       return new BaseResponse<>(200, null, "Customer Deleted");
     } catch (Exception e) {

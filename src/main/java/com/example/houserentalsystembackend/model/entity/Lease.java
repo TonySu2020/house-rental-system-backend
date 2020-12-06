@@ -2,6 +2,8 @@ package com.example.houserentalsystembackend.model.entity;
 
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -9,7 +11,8 @@ import javax.persistence.ManyToOne;
 public class Lease {
 
   @Id
-  private String id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
   private Date startDate;
 
@@ -29,7 +32,7 @@ public class Lease {
   public Lease() {
   }
 
-  public Lease(String id, Date startDate, Date endDate, double actualRent,
+  public Lease(int id, Date startDate, Date endDate, double actualRent,
       Agent agent, Customer customer,
       House house) {
     this.id = id;
@@ -41,11 +44,11 @@ public class Lease {
     this.house = house;
   }
 
-  public String getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(int id) {
     this.id = id;
   }
 
