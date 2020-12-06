@@ -1,6 +1,5 @@
 package com.example.houserentalsystembackend.repository;
 
-
 import com.example.houserentalsystembackend.model.entity.Agent;
 import java.math.BigInteger;
 import java.util.Map;

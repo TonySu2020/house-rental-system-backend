@@ -43,6 +43,9 @@ public class LeaseController {
   public BaseResponse<List<Lease>> findAllLease() {
     try {
       List<Lease> leaseList = leaseService.findAllLease();
+      for(Lease lease: leaseList) {
+        lease.getAgent().setPassword(null);
+      }
       return new BaseResponse<>(200, leaseList, "Found Leases");
     } catch (Exception e) {
       return new BaseResponse<>(500, null, e.getMessage());
@@ -72,7 +75,7 @@ public class LeaseController {
 //      lease.setStartDate(new Date());
 //      lease.setEndDate(new Date());
       Lease newLease = leaseService.addLease(lease);
-
+      newLease.getAgent().setPassword(null);
       return new BaseResponse<>(200, newLease, "Lease Added");
 
     } catch (Exception e) {
@@ -87,6 +90,7 @@ public class LeaseController {
       if (lease == null) {
         return new BaseResponse<>(404, null, "No Such Lease");
       }
+      lease.getAgent().setPassword(null);
       return new BaseResponse<>(200, lease, "Found Lease");
     } catch (Exception e) {
       return new BaseResponse<>(500, null, e.getMessage());
@@ -138,6 +142,7 @@ public class LeaseController {
 
       Lease newLease = leaseService.updateLease(oldLease);
 
+      newLease.getAgent().setPassword(null);
       return new BaseResponse<>(200, newLease, "Lease Updated");
     } catch (Exception e) {
       return new BaseResponse<>(500, null, e.getMessage());
