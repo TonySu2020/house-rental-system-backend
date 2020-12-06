@@ -1,5 +1,6 @@
 package com.example.houserentalsystembackend.model.entity;
 
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -9,6 +10,12 @@ public class Lease {
 
   @Id
   private String id;
+
+  private Date startDate;
+
+  private Date endDate;
+
+  private double actualRent;
 
   @ManyToOne
   private Agent agent;
@@ -22,9 +29,13 @@ public class Lease {
   public Lease() {
   }
 
-  public Lease(String id, Agent agent,
-      Customer customer, HouseOwner houseOwner) {
+  public Lease(String id, Date startDate, Date endDate, double actualRent,
+      Agent agent, Customer customer,
+      HouseOwner houseOwner) {
     this.id = id;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.actualRent = actualRent;
     this.agent = agent;
     this.customer = customer;
     this.houseOwner = houseOwner;
@@ -36,6 +47,30 @@ public class Lease {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public Date getStartDate() {
+    return startDate;
+  }
+
+  public void setStartDate(Date startDate) {
+    this.startDate = startDate;
+  }
+
+  public Date getEndDate() {
+    return endDate;
+  }
+
+  public void setEndDate(Date endDate) {
+    this.endDate = endDate;
+  }
+
+  public double getActualRent() {
+    return actualRent;
+  }
+
+  public void setActualRent(double actualRent) {
+    this.actualRent = actualRent;
   }
 
   public Agent getAgent() {

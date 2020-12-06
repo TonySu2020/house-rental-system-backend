@@ -4,6 +4,7 @@ import com.example.houserentalsystembackend.model.entity.Owner;
 import com.example.houserentalsystembackend.repository.OwnerRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,5 +19,26 @@ public class OwnerService {
     List<Owner> ownerList = new ArrayList<>();
     iterable.forEach(ownerList::add);
     return ownerList;
+  }
+
+  public Owner findById(String id) {
+    Optional<Owner> owner = ownerRepository.findById(id);
+    return owner.orElse(null);
+  }
+
+  public Owner addOwner(Owner owner) {
+    return ownerRepository.save(owner);
+  }
+
+  public void deleteOwner(String id) {
+    ownerRepository.deleteById(id);
+  }
+
+  public Owner updateOwner(Owner owner) {
+    return ownerRepository.save(owner);
+  }
+
+  public Owner HardUpdateOwner(Owner owner) {
+    return null;
   }
 }
