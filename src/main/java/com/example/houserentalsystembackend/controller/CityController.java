@@ -19,7 +19,7 @@ public class CityController {
   private CityService cityService;
 
   @GetMapping(value = "/api/cities")
-  public BaseResponse<List<City>> findAllCustomer() {
+  public BaseResponse<List<City>> findAllCity() {
     try {
       List<City> cityList = cityService.findAllCity();
       return new BaseResponse<>(200, cityList, "Found Cities");
