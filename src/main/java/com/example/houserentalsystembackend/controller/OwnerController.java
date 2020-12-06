@@ -85,7 +85,7 @@ public class OwnerController {
       oldOwner.setFirstName(owner.getFirstName());
       oldOwner.setLastName(owner.getLastName());
       oldOwner.setPhone(owner.getPhone());
-      if(owner.getId().equals(id)) {
+      if (owner.getId().equals(id)) {
         newOwner = ownerService.updateOwner(oldOwner);
       } else {
         newOwner = ownerService.HardUpdateOwner(oldOwner);

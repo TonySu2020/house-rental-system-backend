@@ -48,12 +48,12 @@ public class HouseController {
         return new BaseResponse<>(409, null, "This house has been registered.");
       }
       City city = cityService.findById(house.getCity().getZipCode());
-      if(city == null) {
+      if (city == null) {
         city = cityService.addCity(house.getCity());
       }
       house.setCity(city);
       Owner owner = ownerService.findById(house.getOwner().getId());
-      if(owner == null) {
+      if (owner == null) {
         return new BaseResponse<>(404, null, "No Such Owner");
       }
       house.setOwner(owner);
@@ -100,13 +100,13 @@ public class HouseController {
       }
 
       City city = cityService.findById(house.getCity().getZipCode());
-      if(city == null) {
+      if (city == null) {
         city = cityService.addCity(house.getCity());
       }
       house.setCity(city);
 
       Owner owner = ownerService.findById(house.getOwner().getId());
-      if(owner == null) {
+      if (owner == null) {
         return new BaseResponse<>(404, null, "No Such Owner");
       }
       house.setOwner(owner);
@@ -124,7 +124,6 @@ public class HouseController {
       oldHouse.setRent(house.getRent());
       oldHouse.setNote(house.getNote());
       oldHouse.setStreet(house.getStreet());
-
 
       House newHouse = houseService.updateHouse(oldHouse);
 

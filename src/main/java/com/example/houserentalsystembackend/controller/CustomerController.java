@@ -72,7 +72,8 @@ public class CustomerController {
   }
 
   @PutMapping(value = "/api/customers/{id}")
-  public BaseResponse<Customer> updateById(@PathVariable("id") String id, @RequestBody Customer customer) {
+  public BaseResponse<Customer> updateById(@PathVariable("id") String id,
+      @RequestBody Customer customer) {
     try {
       Customer oldCustomer = customerService.findById(id);
       if (oldCustomer == null) {
@@ -84,7 +85,7 @@ public class CustomerController {
       oldCustomer.setFirstName(customer.getFirstName());
       oldCustomer.setLastName(customer.getLastName());
       oldCustomer.setPhone(customer.getPhone());
-      if(customer.getId().equals(id)) {
+      if (customer.getId().equals(id)) {
         newCustomer = customerService.updateCustomer(oldCustomer);
       } else {
         newCustomer = customerService.HardUpdateCustomer(oldCustomer);

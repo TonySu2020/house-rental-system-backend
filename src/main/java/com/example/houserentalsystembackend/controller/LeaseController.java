@@ -43,7 +43,7 @@ public class LeaseController {
   public BaseResponse<List<Lease>> findAllLease() {
     try {
       List<Lease> leaseList = leaseService.findAllLease();
-      for(Lease lease: leaseList) {
+      for (Lease lease : leaseList) {
         lease.getAgent().setPassword(null);
       }
       return new BaseResponse<>(200, leaseList, "Found Leases");
@@ -56,7 +56,7 @@ public class LeaseController {
   public BaseResponse<Lease> addLease(@RequestBody Lease lease) {
     try {
       Agent agent = agentService.findById(lease.getAgent().getId());
-      if(agent == null) {
+      if (agent == null) {
         return new BaseResponse<>(404, null, "No Such Agent");
       }
       lease.setAgent(agent);
@@ -68,7 +68,7 @@ public class LeaseController {
       lease.setHouse(house);
 
       Customer customer = customerService.findById(lease.getCustomer().getId());
-      if(customer == null) {
+      if (customer == null) {
         return new BaseResponse<>(404, null, "No Such Customer");
       }
       lease.setCustomer(customer);
@@ -100,7 +100,7 @@ public class LeaseController {
   @DeleteMapping(value = "/api/leases/{id}")
   public BaseResponse<Lease> deleteById(@PathVariable("id") int id) {
     try {
-      if(leaseService.findById(id) == null) {
+      if (leaseService.findById(id) == null) {
         return new BaseResponse<>(404, null, "No Such Lease");
       }
       leaseService.deleteLease(id);
@@ -119,7 +119,7 @@ public class LeaseController {
       }
 
       Agent agent = agentService.findById(lease.getAgent().getId());
-      if(agent == null) {
+      if (agent == null) {
         return new BaseResponse<>(404, null, "No Such Agent");
       }
       oldLease.setAgent(agent);
@@ -131,7 +131,7 @@ public class LeaseController {
       oldLease.setHouse(house);
 
       Customer customer = customerService.findById(lease.getCustomer().getId());
-      if(customer == null) {
+      if (customer == null) {
         return new BaseResponse<>(404, null, "No Such Customer");
       }
       oldLease.setCustomer(customer);

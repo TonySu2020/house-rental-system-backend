@@ -21,7 +21,7 @@ public class AuthController {
   public BaseResponse<Agent> verifyLogin(@RequestBody LoginForm loginForm) {
     try {
       Agent agent = agentService.verifyLogin(loginForm.getUsername(), loginForm.getPassword());
-      if(agent != null) {
+      if (agent != null) {
         agent.setPassword(null);
         return new BaseResponse<>(200, agent, "Login Success");
       }

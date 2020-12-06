@@ -15,7 +15,8 @@ public class Overview {
   public Overview() {
   }
 
-  public Overview(int numOfCustomer, int numOfOwner, int numOfCity, int numOfHouse, int numOfLease) {
+  public Overview(int numOfCustomer, int numOfOwner, int numOfCity, int numOfHouse,
+      int numOfLease) {
     this.numOfCustomer = numOfCustomer;
     this.numOfOwner = numOfOwner;
     this.numOfCity = numOfCity;

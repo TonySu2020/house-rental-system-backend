@@ -31,7 +31,7 @@ public class CityController {
   @PostMapping(value = "/api/cities")
   public BaseResponse<City> addCity(@RequestBody City city) {
     try {
-      if(cityService.findById(city.getZipCode()) == null) {
+      if (cityService.findById(city.getZipCode()) == null) {
         return new BaseResponse<>(409, null, "This city has been added.");
       }
       City newCity = cityService.addCity(city);
