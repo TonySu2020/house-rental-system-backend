@@ -65,6 +65,10 @@ public class OwnerController {
       if (owner == null) {
         return new BaseResponse<>(404, null, "No Such Owner");
       }
+      if (!ownerService.isSafeToDeleteOwner(id)) {
+        return new BaseResponse<>(403, null,
+            "Delete Failed! This owner has houses! If you want to delete it anyway, use HARD DELETE instead.");
+      }
       ownerService.deleteOwner(id);
       return new BaseResponse<>(200, null, "Owner Deleted");
     } catch (Exception e) {
@@ -85,11 +89,9 @@ public class OwnerController {
       oldOwner.setFirstName(owner.getFirstName());
       oldOwner.setLastName(owner.getLastName());
       oldOwner.setPhone(owner.getPhone());
-      if (owner.getId().equals(id)) {
-        newOwner = ownerService.updateOwner(oldOwner);
-      } else {
-        newOwner = ownerService.HardUpdateOwner(oldOwner);
-      }
+
+      newOwner = ownerService.updateOwner(oldOwner);
+
       return new BaseResponse<>(200, newOwner, "Owner Updated");
     } catch (Exception e) {
       return new BaseResponse<>(500, null, e.getMessage());
@@ -112,6 +114,20 @@ public class OwnerController {
     try {
       List<Owner> ownerList = ownerService.findByPhone(phone);
       return new BaseResponse<>(200, ownerList, "Found Owners");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+  @DeleteMapping(value = "/api/owners/{id}/hard")
+  public BaseResponse<Owner> hardDeleteById(@PathVariable("id") String id) {
+    try {
+      Owner owner = ownerService.findById(id);
+      if (owner == null) {
+        return new BaseResponse<>(404, null, "No Such Owner");
+      }
+      ownerService.HardDeleteOwner(id);
+      return new BaseResponse<>(200, null, "Owner Deleted");
     } catch (Exception e) {
       return new BaseResponse<>(500, null, e.getMessage());
     }

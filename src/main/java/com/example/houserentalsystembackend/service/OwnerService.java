@@ -38,15 +38,19 @@ public class OwnerService {
     return ownerRepository.save(owner);
   }
 
-  public Owner HardUpdateOwner(Owner owner) {
-    return null;
-  }
-
   public List<Owner> findByEmail(String email) {
     return ownerRepository.findAllByEmail(email);
   }
 
   public List<Owner> findByPhone(String phone) {
     return ownerRepository.findAllByPhone(phone);
+  }
+
+  public void HardDeleteOwner(String id) {
+    ownerRepository.hardDeleteOwner(id);
+  }
+
+  public boolean isSafeToDeleteOwner(String id) {
+    return ownerRepository.isSafeToDeleteOwner(id);
   }
 }

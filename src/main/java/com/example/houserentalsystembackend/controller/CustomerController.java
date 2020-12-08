@@ -65,6 +65,10 @@ public class CustomerController {
       if (customer == null) {
         return new BaseResponse<>(404, null, "No Such Customer");
       }
+      if (!customerService.isSafeToDeleteCustomer(id)) {
+        return new BaseResponse<>(403, null,
+            "Delete Failed! This customer has leases! If you want to delete it anyway, use HARD DELETE instead.");
+      }
       customerService.deleteCustomer(id);
       return new BaseResponse<>(200, null, "Customer Deleted");
     } catch (Exception e) {
@@ -86,11 +90,9 @@ public class CustomerController {
       oldCustomer.setFirstName(customer.getFirstName());
       oldCustomer.setLastName(customer.getLastName());
       oldCustomer.setPhone(customer.getPhone());
-      if (customer.getId().equals(id)) {
-        newCustomer = customerService.updateCustomer(oldCustomer);
-      } else {
-        newCustomer = customerService.HardUpdateCustomer(oldCustomer);
-      }
+
+      newCustomer = customerService.updateCustomer(oldCustomer);
+
       return new BaseResponse<>(200, newCustomer, "Customer Updated");
     } catch (Exception e) {
       return new BaseResponse<>(500, null, e.getMessage());
@@ -113,6 +115,20 @@ public class CustomerController {
     try {
       List<Customer> customerList = customerService.findByPhone(phone);
       return new BaseResponse<>(200, customerList, "Found Customers");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+  @DeleteMapping(value = "/api/customers/{id}/hard")
+  public BaseResponse<Customer> hardDeleteById(@PathVariable("id") String id) {
+    try {
+      Customer customer = customerService.findById(id);
+      if (customer == null) {
+        return new BaseResponse<>(404, null, "No Such Customer");
+      }
+      customerService.hardDeleteCustomer(id);
+      return new BaseResponse<>(200, null, "Customer Deleted");
     } catch (Exception e) {
       return new BaseResponse<>(500, null, e.getMessage());
     }

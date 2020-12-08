@@ -51,4 +51,12 @@ public class CustomerService {
   public List<Customer> findByPhone(String phone) {
     return customerRepository.findAllByPhone(phone);
   }
+
+  public void hardDeleteCustomer(String id) {
+    customerRepository.hardDeleteCustomer(id);
+  }
+
+  public boolean isSafeToDeleteCustomer(String id) {
+    return customerRepository.isSafeToDeleteCustomer(id);
+  }
 }

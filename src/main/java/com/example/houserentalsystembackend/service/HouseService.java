@@ -38,8 +38,12 @@ public class HouseService {
     return houseRepository.save(house);
   }
 
-  public House HardUpdateHouse(House house) {
-    return null;
+  public void hardDeleteHouse(int id) {
+    houseRepository.hardDeleteHouse(id);
+  }
+
+  public boolean isSafeToDeleteHouse(int id) {
+    return houseRepository.isSafeToDeleteHouse(id);
   }
 
 }

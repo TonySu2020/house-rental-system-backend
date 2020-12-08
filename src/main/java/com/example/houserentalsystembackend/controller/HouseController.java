@@ -2,6 +2,7 @@ package com.example.houserentalsystembackend.controller;
 
 import com.example.houserentalsystembackend.model.BaseResponse;
 import com.example.houserentalsystembackend.model.entity.City;
+import com.example.houserentalsystembackend.model.entity.Customer;
 import com.example.houserentalsystembackend.model.entity.House;
 import com.example.houserentalsystembackend.model.entity.Owner;
 import com.example.houserentalsystembackend.service.CityService;
@@ -84,6 +85,10 @@ public class HouseController {
       if (house == null) {
         return new BaseResponse<>(404, null, "No Such House");
       }
+      if (!houseService.isSafeToDeleteHouse(id)) {
+        return new BaseResponse<>(403, null,
+            "Delete Failed! This house has leases! If you want to delete it anyway, use HARD DELETE instead.");
+      }
       houseService.deleteHouse(id);
       return new BaseResponse<>(200, null, "House Deleted");
     } catch (Exception e) {
@@ -128,6 +133,20 @@ public class HouseController {
       House newHouse = houseService.updateHouse(oldHouse);
 
       return new BaseResponse<>(200, newHouse, "House Updated");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+  @DeleteMapping(value = "/api/houses/{id}/hard")
+  public BaseResponse<House> hardDeleteById(@PathVariable("id") int id) {
+    try {
+      House house = houseService.findById(id);
+      if (house == null) {
+        return new BaseResponse<>(404, null, "No Such House");
+      }
+      houseService.hardDeleteHouse(id);
+      return new BaseResponse<>(200, null, "House Deleted");
     } catch (Exception e) {
       return new BaseResponse<>(500, null, e.getMessage());
     }
