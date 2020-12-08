@@ -43,4 +43,12 @@ public class CustomerService {
   public Customer HardUpdateCustomer(Customer customer) {
     return null;
   }
+
+  public List<Customer> findByEmail(String email) {
+    return customerRepository.findAllByEmail(email);
+  }
+
+  public List<Customer> findByPhone(String phone) {
+    return customerRepository.findAllByPhone(phone);
+  }
 }

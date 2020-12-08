@@ -95,4 +95,25 @@ public class OwnerController {
       return new BaseResponse<>(500, null, e.getMessage());
     }
   }
+
+  @GetMapping(value = "/api/owners/email/{email}")
+  public BaseResponse<List<Owner>> findByEmail(@PathVariable("email") String email) {
+    try {
+      List<Owner> ownerList = ownerService.findByEmail(email);
+      return new BaseResponse<>(200, ownerList, "Found Owners");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+
+  @GetMapping(value = "/api/owners/phone/{phone}")
+  public BaseResponse<List<Owner>> findByPhone(@PathVariable("phone") String phone) {
+    try {
+      List<Owner> ownerList = ownerService.findByPhone(phone);
+      return new BaseResponse<>(200, ownerList, "Found Owners");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
 }

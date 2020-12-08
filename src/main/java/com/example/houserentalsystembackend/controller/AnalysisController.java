@@ -20,15 +20,20 @@ public class AnalysisController {
   @GetMapping(value = "/api/analysis/overview")
   public BaseResponse<Overview> findAllCount() {
 
-    Map<String, BigInteger> map = analysisService.getOverview();
-    Overview overview = new Overview();
-    overview.setNumOfCity(map.get("num_of_city").intValue());
-    overview.setNumOfCustomer(map.get("num_of_customer").intValue());
-    overview.setNumOfHouse(map.get("num_of_house").intValue());
-    overview.setNumOfLease(map.get("num_of_lease").intValue());
-    overview.setNumOfOwner(map.get("num_of_owner").intValue());
+    try{
+      Map<String, BigInteger> map = analysisService.getOverview();
+      Overview overview = new Overview();
+      overview.setNumOfCity(map.get("num_of_city").intValue());
+      overview.setNumOfCustomer(map.get("num_of_customer").intValue());
+      overview.setNumOfHouse(map.get("num_of_house").intValue());
+      overview.setNumOfLease(map.get("num_of_lease").intValue());
+      overview.setNumOfOwner(map.get("num_of_owner").intValue());
 
-    return new BaseResponse<>(200, overview, "Found Summary");
+      return new BaseResponse<>(200, overview, "Found Summary");
+    } catch (Exception e){
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+
   }
 
 }

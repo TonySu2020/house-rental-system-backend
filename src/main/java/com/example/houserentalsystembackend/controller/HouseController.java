@@ -120,7 +120,7 @@ public class HouseController {
       oldHouse.setWaterInclude(house.isWaterInclude());
       oldHouse.setGasInclude(house.isGasInclude());
       oldHouse.setNetworkInclude(house.isNetworkInclude());
-      oldHouse.setNearToTransit(house.isNetworkInclude());
+      oldHouse.setNearToTransit(house.isNearToTransit());
       oldHouse.setRent(house.getRent());
       oldHouse.setNote(house.getNote());
       oldHouse.setStreet(house.getStreet());

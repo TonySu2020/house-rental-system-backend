@@ -2,6 +2,7 @@ package com.example.houserentalsystembackend.controller;
 
 import com.example.houserentalsystembackend.model.BaseResponse;
 import com.example.houserentalsystembackend.model.entity.Customer;
+import com.example.houserentalsystembackend.model.entity.Owner;
 import com.example.houserentalsystembackend.service.CustomerService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +92,27 @@ public class CustomerController {
         newCustomer = customerService.HardUpdateCustomer(oldCustomer);
       }
       return new BaseResponse<>(200, newCustomer, "Customer Updated");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+  @GetMapping(value = "/api/customers/email/{email}")
+  public BaseResponse<List<Customer>> findByEmail(@PathVariable("email") String email) {
+    try {
+      List<Customer> customerList = customerService.findByEmail(email);
+      return new BaseResponse<>(200, customerList, "Found Customers");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+
+  @GetMapping(value = "/api/customers/phone/{phone}")
+  public BaseResponse<List<Customer>> findByPhone(@PathVariable("phone") String phone) {
+    try {
+      List<Customer> customerList = customerService.findByPhone(phone);
+      return new BaseResponse<>(200, customerList, "Found Customers");
     } catch (Exception e) {
       return new BaseResponse<>(500, null, e.getMessage());
     }

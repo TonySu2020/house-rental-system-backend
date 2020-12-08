@@ -41,4 +41,12 @@ public class OwnerService {
   public Owner HardUpdateOwner(Owner owner) {
     return null;
   }
+
+  public List<Owner> findByEmail(String email) {
+    return ownerRepository.findAllByEmail(email);
+  }
+
+  public List<Owner> findByPhone(String phone) {
+    return ownerRepository.findAllByPhone(phone);
+  }
 }
