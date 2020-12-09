@@ -46,6 +46,10 @@ public class HouseService {
     return houseRepository.isSafeToDeleteHouse(id);
   }
 
+  public boolean houseExist(String street, String zip) {
+    return houseRepository.houseExist(street, zip);
+  }
+
   public List<House> findAllByOwner(String id) {
     return houseRepository.findAllByOwner(id);
   }

@@ -49,6 +49,9 @@ public class HouseController {
       if (houseService.findById(house.getId()) != null) {
         return new BaseResponse<>(409, null, "This house has been registered.");
       }
+      if(houseService.houseExist(house.getStreet(), house.getCity().getZipCode())) {
+        return new BaseResponse<>(409, null, "This house has been registered.");
+      }
       City city = cityService.findById(house.getCity().getZipCode());
       if (city == null) {
         city = cityService.addCity(house.getCity());

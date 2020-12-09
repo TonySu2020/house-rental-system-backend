@@ -14,6 +14,9 @@ public interface HouseRepository extends CrudRepository<House, Integer> {
   @Query(value = "SELECT is_safe_delete_house(:id)", nativeQuery = true)
   boolean isSafeToDeleteHouse(@Param("id") int id);
 
+  @Query(value = "SELECT house_exist(:street, :zip)", nativeQuery = true)
+  boolean houseExist(@Param("street") String street, @Param("zip") String zip);
+
   @Query(value = "SELECT house FROM House house where house.owner.id = :id")
   List<House> findAllByOwner(@Param("id") String id);
 
