@@ -49,4 +49,10 @@ public class HouseService {
   public List<House> findAllByOwner(String id) {
     return houseRepository.findAllByOwner(id);
   }
+
+  public List<House> findAllByCondition(String zip, int bed, int bath, double min, double max,
+      boolean ele, boolean water, boolean gas, boolean net, boolean transit) {
+    return houseRepository
+        .findAllByCondition(zip, bed, bath, min, max, ele, water, gas, net, transit);
+  }
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(value = "*", maxAge = 3600)
@@ -156,6 +157,22 @@ public class HouseController {
   public BaseResponse<List<House>> findAllByOwner(@PathVariable("id") String id) {
     try {
       List<House> houseList = houseService.findAllByOwner(id);
+      return new BaseResponse<>(200, houseList, "Found Houses");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+  @GetMapping(value = "/api/houses/condition")
+  public BaseResponse<List<House>> findAllByCondition(@RequestParam("zip") String zip,
+      @RequestParam("bed") int bed, @RequestParam("bath") int bath,
+      @RequestParam("min") double min, @RequestParam("max") double max,
+      @RequestParam("ele") boolean ele, @RequestParam("water") boolean water,
+      @RequestParam("gas") boolean gas, @RequestParam("net") boolean net,
+      @RequestParam("transit") boolean transit) {
+    try {
+      List<House> houseList = houseService
+          .findAllByCondition(zip, bed, bath, min, max, ele, water, gas, net, transit);
       return new BaseResponse<>(200, houseList, "Found Houses");
     } catch (Exception e) {
       return new BaseResponse<>(500, null, e.getMessage());
