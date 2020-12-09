@@ -126,7 +126,7 @@ public class OwnerController {
       if (owner == null) {
         return new BaseResponse<>(404, null, "No Such Owner");
       }
-      ownerService.HardDeleteOwner(id);
+      ownerService.hardDeleteOwner(id);
       return new BaseResponse<>(200, null, "Owner Deleted");
     } catch (Exception e) {
       return new BaseResponse<>(500, null, e.getMessage());

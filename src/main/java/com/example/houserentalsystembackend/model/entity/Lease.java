@@ -1,6 +1,7 @@
 package com.example.houserentalsystembackend.model.entity;
 
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,13 +12,17 @@ import javax.persistence.ManyToOne;
 public class Lease {
 
   @Id
+  @Column
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
+  @Column
   private Date startDate;
 
+  @Column
   private Date endDate;
 
+  @Column
   private double actualRent;
 
   @ManyToOne

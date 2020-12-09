@@ -1,5 +1,6 @@
 package com.example.houserentalsystembackend.model.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,19 +10,26 @@ import javax.persistence.Id;
 public class Agent {
 
   @Id
+  @Column
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
+  @Column(unique = true)
   private String username;
 
+  @Column
   private String password;
 
+  @Column
   private String firstName;
 
+  @Column
   private String lastName;
 
+  @Column
   private String email;
 
+  @Column
   private String phone;
 
   public Agent() {

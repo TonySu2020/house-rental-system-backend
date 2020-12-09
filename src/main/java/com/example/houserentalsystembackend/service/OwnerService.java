@@ -46,7 +46,7 @@ public class OwnerService {
     return ownerRepository.findAllByPhone(phone);
   }
 
-  public void HardDeleteOwner(String id) {
+  public void hardDeleteOwner(String id) {
     ownerRepository.hardDeleteOwner(id);
   }
 

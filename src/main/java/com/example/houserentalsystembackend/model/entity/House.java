@@ -1,5 +1,6 @@
 package com.example.houserentalsystembackend.model.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,8 +14,10 @@ public class House {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
+  @Column
   private double rent;
 
+  @Column
   private String street;
 
   @ManyToOne
@@ -23,20 +26,28 @@ public class House {
   @ManyToOne
   private Owner owner;
 
+  @Column
   private int bedroomNumber;
 
+  @Column
   private int bathroomNumber;
 
+  @Column
   private boolean nearToTransit;
 
+  @Column
   private boolean electricityInclude;
 
+  @Column
   private boolean waterInclude;
 
+  @Column
   private boolean gasInclude;
 
+  @Column
   private boolean networkInclude;
 
+  @Column
   private String note;
 
   public House() {

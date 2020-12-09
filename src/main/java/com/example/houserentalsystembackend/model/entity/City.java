@@ -1,5 +1,6 @@
 package com.example.houserentalsystembackend.model.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -7,10 +8,13 @@ import javax.persistence.Id;
 public class City {
 
   @Id
+  @Column
   private String zipCode;
 
+  @Column
   private String city;
 
+  @Column
   private String state;
 
   public City() {
