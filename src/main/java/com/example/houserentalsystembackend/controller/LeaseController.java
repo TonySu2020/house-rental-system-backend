@@ -149,5 +149,69 @@ public class LeaseController {
     }
   }
 
+  @GetMapping(value = "/api/leases/owner/{id}")
+  public BaseResponse<List<Lease>> findAllByOwnerId(@PathVariable("id") String id) {
+    try {
+      List<Lease> leaseList = leaseService.findAllByOwnerId(id);
+      for (Lease lease : leaseList) {
+        lease.getAgent().setPassword(null);
+      }
+      return new BaseResponse<>(200, leaseList, "Found Leases");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+  @GetMapping(value = "/api/leases/customer/{id}")
+  public BaseResponse<List<Lease>> findAllByCustomerId(@PathVariable("id") String id) {
+    try {
+      List<Lease> leaseList = leaseService.findAllByCustomerId(id);
+      for (Lease lease : leaseList) {
+        lease.getAgent().setPassword(null);
+      }
+      return new BaseResponse<>(200, leaseList, "Found Leases");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+  @GetMapping(value = "/api/leases/closed")
+  public BaseResponse<List<Lease>> findAllClosed() {
+    try {
+      List<Lease> leaseList = leaseService.findAllClosed();
+      for (Lease lease : leaseList) {
+        lease.getAgent().setPassword(null);
+      }
+      return new BaseResponse<>(200, leaseList, "Found Leases");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+  @GetMapping(value = "/api/leases/ongoing")
+  public BaseResponse<List<Lease>> findAllOnGoing() {
+    try {
+      List<Lease> leaseList = leaseService.findAllOnGoing();
+      for (Lease lease : leaseList) {
+        lease.getAgent().setPassword(null);
+      }
+      return new BaseResponse<>(200, leaseList, "Found Leases");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
+
+  @GetMapping(value = "/api/leases/closing")
+  public BaseResponse<List<Lease>> findAllClosing() {
+    try {
+      List<Lease> leaseList = leaseService.findAllClosing();
+      for (Lease lease : leaseList) {
+        lease.getAgent().setPassword(null);
+      }
+      return new BaseResponse<>(200, leaseList, "Found Leases");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
 
 }
