@@ -151,4 +151,14 @@ public class HouseController {
       return new BaseResponse<>(500, null, e.getMessage());
     }
   }
+
+  @GetMapping(value = "/api/houses/owner/{id}")
+  public BaseResponse<List<House>> findAllByOwner(@PathVariable("id") String id) {
+    try {
+      List<House> houseList = houseService.findAllByOwner(id);
+      return new BaseResponse<>(200, houseList, "Found Houses");
+    } catch (Exception e) {
+      return new BaseResponse<>(500, null, e.getMessage());
+    }
+  }
 }

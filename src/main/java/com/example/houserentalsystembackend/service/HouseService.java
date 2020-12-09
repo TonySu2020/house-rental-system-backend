@@ -46,4 +46,7 @@ public class HouseService {
     return houseRepository.isSafeToDeleteHouse(id);
   }
 
+  public List<House> findAllByOwner(String id) {
+    return houseRepository.findAllByOwner(id);
+  }
 }
