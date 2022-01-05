@@ -6,6 +6,7 @@ import com.example.houserentalsystembackend.model.entity.Agent;
 import com.example.houserentalsystembackend.service.AgentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,12 +24,17 @@ public class AuthController {
       Agent agent = agentService.verifyLogin(loginForm.getUsername(), loginForm.getPassword());
       if (agent != null) {
         agent.setPassword(null);
-        return new BaseResponse<>(200, agent, "Login Success");
+        return BaseResponse.ok(agent, "Login Success");
       }
-      return new BaseResponse<>(409, null, "Invalid username or password");
+      return BaseResponse.error(409, "Invalid username or password");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(null, e.getMessage());
     }
+  }
+
+  @GetMapping("/login")
+  public BaseResponse<String> login() {
+    return BaseResponse.error("Login required!");
   }
 
 }

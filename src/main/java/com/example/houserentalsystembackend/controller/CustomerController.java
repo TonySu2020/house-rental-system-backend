@@ -2,7 +2,6 @@ package com.example.houserentalsystembackend.controller;
 
 import com.example.houserentalsystembackend.model.BaseResponse;
 import com.example.houserentalsystembackend.model.entity.Customer;
-import com.example.houserentalsystembackend.model.entity.Owner;
 import com.example.houserentalsystembackend.service.CustomerService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,9 @@ public class CustomerController {
   public BaseResponse<List<Customer>> findAllCustomer() {
     try {
       List<Customer> customerList = customerService.findAllCustomer();
-      return new BaseResponse<>(200, customerList, "Found Customers");
+      return BaseResponse.ok(customerList, "Found Customers");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -36,12 +35,12 @@ public class CustomerController {
   public BaseResponse<Customer> addCustomer(@RequestBody Customer customer) {
     try {
       if (customerService.findById(customer.getId()) != null) {
-        return new BaseResponse<>(409, null, "This customer has been registered.");
+        return BaseResponse.error(409, "This customer has been registered.");
       }
       Customer newCustomer = customerService.addCustomer(customer);
-      return new BaseResponse<>(200, newCustomer, "Customer Added");
+      return BaseResponse.ok(newCustomer, "Customer Added");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -50,11 +49,11 @@ public class CustomerController {
     try {
       Customer customer = customerService.findById(id);
       if (customer == null) {
-        return new BaseResponse<>(404, null, "No Such Customer");
+        return BaseResponse.error(404, "No Such Customer");
       }
-      return new BaseResponse<>(200, customer, "Found Customer");
+      return BaseResponse.ok(customer, "Found Customer");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -63,26 +62,26 @@ public class CustomerController {
     try {
       Customer customer = customerService.findById(id);
       if (customer == null) {
-        return new BaseResponse<>(404, null, "No Such Customer");
+        return BaseResponse.error(404, "No Such Customer");
       }
       if (!customerService.isSafeToDeleteCustomer(id)) {
-        return new BaseResponse<>(403, null,
-            "Delete Failed! This customer has leases! If you want to delete it anyway, use HARD DELETE instead.");
+        return BaseResponse.error(403,
+          "Delete Failed! This customer has leases! If you want to delete it anyway, use HARD DELETE instead.");
       }
       customerService.deleteCustomer(id);
-      return new BaseResponse<>(200, null, "Customer Deleted");
+      return BaseResponse.ok(null, "Customer Deleted");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
   @PutMapping(value = "/api/customers/{id}")
   public BaseResponse<Customer> updateById(@PathVariable("id") String id,
-      @RequestBody Customer customer) {
+    @RequestBody Customer customer) {
     try {
       Customer oldCustomer = customerService.findById(id);
       if (oldCustomer == null) {
-        return new BaseResponse<>(404, null, "No Such Customer");
+        return BaseResponse.error(404, "No Such Customer");
       }
       Customer newCustomer;
       oldCustomer.setId(customer.getId());
@@ -93,9 +92,9 @@ public class CustomerController {
 
       newCustomer = customerService.updateCustomer(oldCustomer);
 
-      return new BaseResponse<>(200, newCustomer, "Customer Updated");
+      return BaseResponse.ok(newCustomer, "Customer Updated");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -103,9 +102,9 @@ public class CustomerController {
   public BaseResponse<List<Customer>> findByEmail(@PathVariable("email") String email) {
     try {
       List<Customer> customerList = customerService.findByEmail(email);
-      return new BaseResponse<>(200, customerList, "Found Customers");
+      return BaseResponse.ok(customerList, "Found Customers");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -114,9 +113,9 @@ public class CustomerController {
   public BaseResponse<List<Customer>> findByPhone(@PathVariable("phone") String phone) {
     try {
       List<Customer> customerList = customerService.findByPhone(phone);
-      return new BaseResponse<>(200, customerList, "Found Customers");
+      return BaseResponse.ok(customerList, "Found Customers");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -125,12 +124,12 @@ public class CustomerController {
     try {
       Customer customer = customerService.findById(id);
       if (customer == null) {
-        return new BaseResponse<>(404, null, "No Such Customer");
+        return BaseResponse.error(404, "No Such Customer");
       }
       customerService.hardDeleteCustomer(id);
-      return new BaseResponse<>(200, null, "Customer Deleted");
+      return BaseResponse.ok(null, "Customer Deleted");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 }

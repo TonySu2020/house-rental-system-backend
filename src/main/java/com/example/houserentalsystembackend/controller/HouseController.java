@@ -37,9 +37,9 @@ public class HouseController {
   public BaseResponse<List<House>> findAllHouse() {
     try {
       List<House> houseList = houseService.findAllHouse();
-      return new BaseResponse<>(200, houseList, "Found Houses");
+      return BaseResponse.ok(houseList, "Found Houses");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -47,10 +47,10 @@ public class HouseController {
   public BaseResponse<House> addHouse(@RequestBody House house) {
     try {
       if (houseService.findById(house.getId()) != null) {
-        return new BaseResponse<>(409, null, "This house has been registered.");
+        return BaseResponse.error(409, "This house has been registered.");
       }
-      if(houseService.houseExist(house.getStreet(), house.getCity().getZipCode())) {
-        return new BaseResponse<>(409, null, "This house has been registered.");
+      if (houseService.houseExist(house.getStreet(), house.getCity().getZipCode())) {
+        return BaseResponse.error(409, "This house has been registered.");
       }
       City city = cityService.findById(house.getCity().getZipCode());
       if (city == null) {
@@ -59,13 +59,13 @@ public class HouseController {
       house.setCity(city);
       Owner owner = ownerService.findById(house.getOwner().getId());
       if (owner == null) {
-        return new BaseResponse<>(404, null, "No Such Owner");
+        return BaseResponse.error(404, "No Such Owner");
       }
       house.setOwner(owner);
       House newHouse = houseService.addHouse(house);
-      return new BaseResponse<>(200, newHouse, "House Added");
+      return BaseResponse.ok(newHouse, "House Added");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -74,11 +74,11 @@ public class HouseController {
     try {
       House house = houseService.findById(id);
       if (house == null) {
-        return new BaseResponse<>(404, null, "No Such House");
+        return BaseResponse.error(404, "No Such House");
       }
-      return new BaseResponse<>(200, house, "Found House");
+      return BaseResponse.ok(house, "Found House");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -87,16 +87,16 @@ public class HouseController {
     try {
       House house = houseService.findById(id);
       if (house == null) {
-        return new BaseResponse<>(404, null, "No Such House");
+        return BaseResponse.error(404, "No Such House");
       }
       if (!houseService.isSafeToDeleteHouse(id)) {
-        return new BaseResponse<>(403, null,
-            "Delete Failed! This house has leases! If you want to delete it anyway, use HARD DELETE instead.");
+        return BaseResponse.error(403,
+          "Delete Failed! This house has leases! If you want to delete it anyway, use HARD DELETE instead.");
       }
       houseService.deleteHouse(id);
-      return new BaseResponse<>(200, null, "House Deleted");
+      return BaseResponse.ok(null, "House Deleted");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -105,7 +105,7 @@ public class HouseController {
     try {
       House oldHouse = houseService.findById(id);
       if (oldHouse == null) {
-        return new BaseResponse<>(404, null, "No Such House");
+        return BaseResponse.error(404, "No Such House");
       }
 
       City city = cityService.findById(house.getCity().getZipCode());
@@ -116,7 +116,7 @@ public class HouseController {
 
       Owner owner = ownerService.findById(house.getOwner().getId());
       if (owner == null) {
-        return new BaseResponse<>(404, null, "No Such Owner");
+        return BaseResponse.error(404, "No Such Owner");
       }
       house.setOwner(owner);
 
@@ -136,9 +136,9 @@ public class HouseController {
 
       House newHouse = houseService.updateHouse(oldHouse);
 
-      return new BaseResponse<>(200, newHouse, "House Updated");
+      return BaseResponse.ok(newHouse, "House Updated");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -147,12 +147,12 @@ public class HouseController {
     try {
       House house = houseService.findById(id);
       if (house == null) {
-        return new BaseResponse<>(404, null, "No Such House");
+        return BaseResponse.error(404, "No Such House");
       }
       houseService.hardDeleteHouse(id);
-      return new BaseResponse<>(200, null, "House Deleted");
+      return BaseResponse.ok(null, "House Deleted");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -160,25 +160,25 @@ public class HouseController {
   public BaseResponse<List<House>> findAllByOwner(@PathVariable("id") String id) {
     try {
       List<House> houseList = houseService.findAllByOwner(id);
-      return new BaseResponse<>(200, houseList, "Found Houses");
+      return BaseResponse.ok(houseList, "Found Houses");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
   @GetMapping(value = "/api/houses/condition")
   public BaseResponse<List<House>> findAllByCondition(@RequestParam("zip") String zip,
-      @RequestParam("bed") int bed, @RequestParam("bath") int bath,
-      @RequestParam("min") double min, @RequestParam("max") double max,
-      @RequestParam("ele") boolean ele, @RequestParam("water") boolean water,
-      @RequestParam("gas") boolean gas, @RequestParam("net") boolean net,
-      @RequestParam("transit") boolean transit) {
+    @RequestParam("bed") int bed, @RequestParam("bath") int bath,
+    @RequestParam("min") double min, @RequestParam("max") double max,
+    @RequestParam("ele") boolean ele, @RequestParam("water") boolean water,
+    @RequestParam("gas") boolean gas, @RequestParam("net") boolean net,
+    @RequestParam("transit") boolean transit) {
     try {
       List<House> houseList = houseService
-          .findAllByCondition(zip, bed, bath, min, max, ele, water, gas, net, transit);
-      return new BaseResponse<>(200, houseList, "Found Houses");
+        .findAllByCondition(zip, bed, bath, min, max, ele, water, gas, net, transit);
+      return BaseResponse.ok(houseList, "Found Houses");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 }

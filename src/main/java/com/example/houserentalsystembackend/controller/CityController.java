@@ -22,9 +22,9 @@ public class CityController {
   public BaseResponse<List<City>> findAllCity() {
     try {
       List<City> cityList = cityService.findAllCity();
-      return new BaseResponse<>(200, cityList, "Found Cities");
+      return BaseResponse.ok(cityList, "Found Cities");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -32,12 +32,12 @@ public class CityController {
   public BaseResponse<City> addCity(@RequestBody City city) {
     try {
       if (cityService.findById(city.getZipCode()) == null) {
-        return new BaseResponse<>(409, null, "This city has been added.");
+        return BaseResponse.error(409, "This city has been added.");
       }
       City newCity = cityService.addCity(city);
-      return new BaseResponse<>(200, newCity, "City Added");
+      return BaseResponse.ok(newCity, "City Added");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 }

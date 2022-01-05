@@ -25,9 +25,9 @@ public class OwnerController {
   public BaseResponse<List<Owner>> findAllOwner() {
     try {
       List<Owner> ownerList = ownerService.findAllOwner();
-      return new BaseResponse<>(200, ownerList, "Found owners");
+      return BaseResponse.ok(ownerList, "Found owners");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
 
   }
@@ -36,12 +36,12 @@ public class OwnerController {
   public BaseResponse<Owner> addOwner(@RequestBody Owner owner) {
     try {
       if (ownerService.findById(owner.getId()) != null) {
-        return new BaseResponse<>(409, null, "This owner has been registered.");
+        return BaseResponse.error(409, "This owner has been registered.");
       }
       Owner newOwner = ownerService.addOwner(owner);
-      return new BaseResponse<>(200, newOwner, "Owner Added");
+      return BaseResponse.ok(newOwner, "Owner Added");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -50,11 +50,11 @@ public class OwnerController {
     try {
       Owner owner = ownerService.findById(id);
       if (owner == null) {
-        return new BaseResponse<>(404, null, "No Such Owner");
+        return BaseResponse.error(404, "No Such Owner");
       }
-      return new BaseResponse<>(200, owner, "Found Owner");
+      return BaseResponse.ok(owner, "Found Owner");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -63,16 +63,16 @@ public class OwnerController {
     try {
       Owner owner = ownerService.findById(id);
       if (owner == null) {
-        return new BaseResponse<>(404, null, "No Such Owner");
+        return BaseResponse.error(404, "No Such Owner");
       }
       if (!ownerService.isSafeToDeleteOwner(id)) {
-        return new BaseResponse<>(403, null,
-            "Delete Failed! This owner has houses! If you want to delete it anyway, use HARD DELETE instead.");
+        return BaseResponse.error(403,
+          "Delete Failed! This owner has houses! If you want to delete it anyway, use HARD DELETE instead.");
       }
       ownerService.deleteOwner(id);
-      return new BaseResponse<>(200, null, "Owner Deleted");
+      return BaseResponse.ok(null, "Owner Deleted");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -81,7 +81,7 @@ public class OwnerController {
     try {
       Owner oldOwner = ownerService.findById(id);
       if (oldOwner == null) {
-        return new BaseResponse<>(404, null, "No Such Owner");
+        return BaseResponse.error(404, "No Such Owner");
       }
       Owner newOwner;
       oldOwner.setId(owner.getId());
@@ -92,9 +92,9 @@ public class OwnerController {
 
       newOwner = ownerService.updateOwner(oldOwner);
 
-      return new BaseResponse<>(200, newOwner, "Owner Updated");
+      return BaseResponse.ok(newOwner, "Owner Updated");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -102,9 +102,9 @@ public class OwnerController {
   public BaseResponse<List<Owner>> findByEmail(@PathVariable("email") String email) {
     try {
       List<Owner> ownerList = ownerService.findByEmail(email);
-      return new BaseResponse<>(200, ownerList, "Found Owners");
+      return BaseResponse.ok(ownerList, "Found Owners");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -113,9 +113,9 @@ public class OwnerController {
   public BaseResponse<List<Owner>> findByPhone(@PathVariable("phone") String phone) {
     try {
       List<Owner> ownerList = ownerService.findByPhone(phone);
-      return new BaseResponse<>(200, ownerList, "Found Owners");
+      return BaseResponse.ok(ownerList, "Found Owners");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 
@@ -124,12 +124,12 @@ public class OwnerController {
     try {
       Owner owner = ownerService.findById(id);
       if (owner == null) {
-        return new BaseResponse<>(404, null, "No Such Owner");
+        return BaseResponse.error(404, "No Such Owner");
       }
       ownerService.hardDeleteOwner(id);
-      return new BaseResponse<>(200, null, "Owner Deleted");
+      return BaseResponse.ok(null, "Owner Deleted");
     } catch (Exception e) {
-      return new BaseResponse<>(500, null, e.getMessage());
+      return BaseResponse.error(e.getMessage());
     }
   }
 }
